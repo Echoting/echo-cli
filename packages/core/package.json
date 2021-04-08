@@ -1,6 +1,6 @@
 {
   "name": "@echo-cli/core",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "echo cli core",
   "author": "zhuting03 <zhuting03@baidu.com>",
   "homepage": "",
@@ -20,6 +20,6 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "devDependencies": {
-    "@echo-cli/utils": "^1.0.0"
+    "@echo-cli/utils": "^0.0.1"
   }
 }
