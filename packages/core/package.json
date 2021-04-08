@@ -1,0 +1,25 @@
+{
+  "name": "@echo-cli/core",
+  "version": "1.0.0",
+  "description": "echo cli core",
+  "author": "zhuting03 <zhuting03@baidu.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/core.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "devDependencies": {
+    "@echo-cli/utils": "^1.0.0"
+  }
+}
