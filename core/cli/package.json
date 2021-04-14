@@ -5,7 +5,10 @@
   "author": "zhuting03 <zhuting03@baidu.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "lib/core.js",
+  "main": "lib/index.js",
+  "bin": {
+    "echo-cli": "bin/index.js"
+  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -20,8 +23,10 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
-  "devDependencies": {
-    "@echo-cli/utils": "^0.0.2"
+  "dependencies": {
+    "@echo-cli/log": "file:../../utils/log",
+    "import-local": "^3.0.2",
+    "npmlog": "^4.1.2"
   },
   "gitHead": "e65f4c5546df214eaa1bf7af91e81ef2f19a51c7"
 }
