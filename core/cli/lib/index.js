@@ -17,11 +17,18 @@ function index(argv) {
 	try {
         checkPkgVersion();
         checkNodeVersion();
+        checkRoot();
     } catch (e) {
 		log.error(e.message);
     }
 
 }
+
+// 检测当前版本
+function checkPkgVersion() {
+    log.info('version', pkg.version);
+}
+
 
 // 需要检查Node版本，较低版本的Node不支持
 function checkNodeVersion() {
@@ -33,7 +40,8 @@ function checkNodeVersion() {
 	}
 }
 
-// 检测当前版本
-function checkPkgVersion() {
-	log.info('version', pkg.version);
+// 检查是否root账户启动，如果是则自动降级
+function checkRoot() {
+	const rootCheck = require('root-check');
+    rootCheck();
 }
