@@ -22,6 +22,8 @@ function index(argv) {
         checkNodeVersion();
         checkRoot();
         checkUserHome();
+        checkInputArgs();
+        log.verbose('verbose', 'test');
     } catch (e) {
 		log.error(e.message);
     }
@@ -53,4 +55,20 @@ function checkRoot() {
 // 检查用户主目录
 function checkUserHome() {
 	console.log(userHome)
+}
+
+// 检查入参，看是否开启了debug模式
+function checkInputArgs() {
+    const minimist = require('minimist');
+    const args = minimist(process.argv.slice(2));
+
+    if (args.debug) {
+        process.env.LOG_LEVEL = 'verbose';
+    } else {
+        process.env.LOG_LEVEL = 'info';
+    }
+
+    // 需要对log.level重新赋值，因为require在前面
+    log.level = process.env.LOG_LEVEL;
+
 }
