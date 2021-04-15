@@ -7,14 +7,19 @@ module.exports = index;
 // .json ==> JSON.parse
 // .node ==> process.dlopen
 // 其他任何文件 通过 .js 进行解析
+
+const path = require('path');
+
 const semver = require('semver');
 const colors = require('colors/safe');
 const userHome = require('user-home');
-const pathExists = require('path-exists').async;
+const pathExists = require('path-exists');
 
 const pkg = require('../package.json');
 const log = require('@echo-cli/log');
 const constant = require('./const');
+
+let config;
 
 function index(argv) {
 	try {
@@ -24,6 +29,7 @@ function index(argv) {
         checkUserHome();
         checkInputArgs();
         log.verbose('verbose', 'test');
+        checkEnv();
     } catch (e) {
 		log.error(e.message);
     }
@@ -71,4 +77,28 @@ function checkInputArgs() {
     // 需要对log.level重新赋值，因为require在前面
     log.level = process.env.LOG_LEVEL;
 
+}
+
+function checkEnv() {
+    const dotEnv = require('dotenv');
+    const envPath = path.resolve(userHome, '.env');
+
+    if (pathExists(envPath)) {
+        // dotEnv是将 .env中配置的参数放置在 process.env中
+        config = dotEnv.config({
+            path: envPath
+        });
+    }
+    createDefaultConfigPath();
+    log.verbose('环境变量', process.env.CLI_HOME);
+}
+
+function createDefaultConfigPath() {
+    let cliHomePath = '';
+    if (process.env.CLI_HOME) {
+        cliHomePath = path.join(userHome, process.env.CLI_HOME);
+    } else {
+        cliHomePath = path.join(userHome, constant.CLI_HOME_PATH);
+    }
+    process.env.CLI_HOME = cliHomePath;
 }
