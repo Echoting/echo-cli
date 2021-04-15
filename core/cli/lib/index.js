@@ -14,6 +14,7 @@ const semver = require('semver');
 const colors = require('colors/safe');
 const userHome = require('user-home');
 const pathExists = require('path-exists');
+const dedent = require('dedent');
 
 const pkg = require('../package.json');
 const log = require('@echo-cli/log');
@@ -21,7 +22,7 @@ const constant = require('./const');
 
 let config;
 
-function index(argv) {
+async function index(argv) {
 	try {
         checkPkgVersion();
         checkNodeVersion();
@@ -30,6 +31,7 @@ function index(argv) {
         checkInputArgs();
         log.verbose('verbose', 'test');
         checkEnv();
+        await checkGlobalUpdate();
     } catch (e) {
 		log.error(e.message);
     }
@@ -101,4 +103,27 @@ function createDefaultConfigPath() {
         cliHomePath = path.join(userHome, constant.CLI_HOME_PATH);
     }
     process.env.CLI_HOME = cliHomePath;
+}
+
+async function checkGlobalUpdate() {
+    // 获取当前版本号和模块名称
+    const currentVersion = pkg.version;
+    const pkgName = pkg.name;
+    // 调用npm Api，获取所有版本号
+    const {getNpmInfo} = require('@echo-cli/get-npm-info');
+    const npmInfo = await getNpmInfo(pkgName);
+
+    // 提取所有版本号，比对哪些版本号是大于当前版本号的
+    const versions = npmInfo.versions;
+    const latestVersion = Object.keys(versions)[0];
+    // 获取最新版本号，提醒用户更新到最新
+    if(latestVersion && semver.gt(latestVersion, currentVersion)) {
+        log.warn('更新提示', colors.yellow(
+            dedent`
+                请更新 ${pkgName}
+                当前版本: ${currentVersion}
+                最新版本: ${latestVersion}
+                更新命令: npm install -g ${pkgName}@${latestVersion}
+            `))
+    }
 }

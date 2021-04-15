@@ -24,8 +24,10 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
+    "@echo-cli/get-npm-info": "file:../../utils/get-npm-info",
     "@echo-cli/log": "file:../../utils/log",
     "colors": "^1.4.0",
+    "dedent": "^0.7.0",
     "dotenv": "^8.2.0",
     "import-local": "^3.0.2",
     "minimist": "^1.2.5",
