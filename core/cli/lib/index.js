@@ -9,6 +9,9 @@ module.exports = index;
 // 其他任何文件 通过 .js 进行解析
 const semver = require('semver');
 const colors = require('colors/safe');
+const userHome = require('user-home');
+const pathExists = require('path-exists').async;
+
 const pkg = require('../package.json');
 const log = require('@echo-cli/log');
 const constant = require('./const');
@@ -18,6 +21,7 @@ function index(argv) {
         checkPkgVersion();
         checkNodeVersion();
         checkRoot();
+        checkUserHome();
     } catch (e) {
 		log.error(e.message);
     }
@@ -44,4 +48,9 @@ function checkNodeVersion() {
 function checkRoot() {
 	const rootCheck = require('root-check');
     rootCheck();
+}
+
+// 检查用户主目录
+function checkUserHome() {
+	console.log(userHome)
 }
