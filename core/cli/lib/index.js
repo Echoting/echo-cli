@@ -15,12 +15,16 @@ const colors = require('colors/safe');
 const userHome = require('user-home');
 const pathExists = require('path-exists');
 const dedent = require('dedent');
+const { Command } = require('commander');
 
 const pkg = require('../package.json');
 const log = require('@echo-cli/log');
 const constant = require('./const');
 
+const init = require('@echo-cli/init');
+
 let config;
+const program = new Command();
 
 async function index(argv) {
 	try {
@@ -28,10 +32,12 @@ async function index(argv) {
         checkNodeVersion();
         checkRoot();
         checkUserHome();
-        checkInputArgs();
+        // checkInputArgs();
         log.verbose('verbose', 'test');
         checkEnv();
         await checkGlobalUpdate();
+
+        registerCommand();
     } catch (e) {
 		log.error(e.message);
     }
@@ -126,4 +132,44 @@ async function checkGlobalUpdate() {
                 更新命令: npm install -g ${pkgName}@${latestVersion}
             `))
     }
+}
+
+// ----- 第二阶段：命令注册 ------
+function registerCommand() {
+    program
+        .name(Object.keys(pkg.bin)[0])
+        .usage('<command> [options]')
+        .version(pkg.version)
+        .option('-d, --debug', '开启debug模式', false);
+
+    program
+        .command('init [projectName]')
+        .option('-f, --force', '是否强制初始化项目')
+        .action(init)
+
+    program.on('option:debug', function() {
+        const options = program.opts();
+        if (options.debug) {
+            process.env.LOG_LEVEL = 'verbose';
+        } else {
+            process.env.LOG_LEVEL = 'info';
+        }
+
+        // 需要对log.level重新赋值，因为require在前面
+        log.level = process.env.LOG_LEVEL;
+        log.verbose('test', 'debug');
+    });
+
+    program.on('command:*', function (operands) {
+        console.error(colors.red(`error: unknown command '${operands[0]}'`));
+        const availableCommands = program.commands.map(cmd => cmd.name());
+        mySuggestBestMatch(operands[0], availableCommands);
+        process.exitCode = 1;
+    });
+
+    if (process.argv.length < 3) {
+        program.outputHelp();
+    }
+
+    program.parse(process.argv);
 }

@@ -26,7 +26,9 @@
   "dependencies": {
     "@echo-cli/get-npm-info": "file:../../utils/get-npm-info",
     "@echo-cli/log": "file:../../utils/log",
+    "@echo-cli/init": "file:../../commands/init",
     "colors": "^1.4.0",
+    "commander": "^7.2.0",
     "dedent": "^0.7.0",
     "dotenv": "^8.2.0",
     "import-local": "^3.0.2",
