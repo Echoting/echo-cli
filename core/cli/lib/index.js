@@ -22,6 +22,7 @@ const log = require('@echo-cli/log');
 const constant = require('./const');
 
 const init = require('@echo-cli/init');
+const exec = require('@echo-cli/exec');
 
 let config;
 const program = new Command();
@@ -133,7 +134,7 @@ function registerCommand() {
     program
         .command('init [projectName]')
         .option('-f, --force', '是否强制初始化项目')
-        .action(init)
+        .action(exec)
 
     program.on('option:debug', function() {
         const options = program.opts();
