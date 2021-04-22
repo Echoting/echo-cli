@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = index;
+module.exports = core;
 
 // reqire .js/.json / .node
 // .js ==> module.exports / exports
@@ -26,17 +26,9 @@ const init = require('@echo-cli/init');
 let config;
 const program = new Command();
 
-async function index(argv) {
+async function core() {
 	try {
-        checkPkgVersion();
-        checkNodeVersion();
-        checkRoot();
-        checkUserHome();
-        // checkInputArgs();
-        log.verbose('verbose', 'test');
-        checkEnv();
-        await checkGlobalUpdate();
-
+        await prepare();
         registerCommand();
     } catch (e) {
 		log.error(e.message);
@@ -68,23 +60,9 @@ function checkRoot() {
 
 // 检查用户主目录
 function checkUserHome() {
-	console.log(userHome)
-}
-
-// 检查入参，看是否开启了debug模式
-function checkInputArgs() {
-    const minimist = require('minimist');
-    const args = minimist(process.argv.slice(2));
-
-    if (args.debug) {
-        process.env.LOG_LEVEL = 'verbose';
-    } else {
-        process.env.LOG_LEVEL = 'info';
+	if (!userHome || !pathExists(userHome)) {
+	    throw new Error(colors.red('当前登录用户主目录不存在!'));
     }
-
-    // 需要对log.level重新赋值，因为require在前面
-    log.level = process.env.LOG_LEVEL;
-
 }
 
 function checkEnv() {
@@ -98,7 +76,6 @@ function checkEnv() {
         });
     }
     createDefaultConfigPath();
-    log.verbose('环境变量', process.env.CLI_HOME);
 }
 
 function createDefaultConfigPath() {
@@ -134,13 +111,24 @@ async function checkGlobalUpdate() {
     }
 }
 
+// ------ 第一阶段: 准备阶段 ------
+async function prepare() {
+    checkPkgVersion();
+    checkNodeVersion();
+    checkRoot();
+    checkUserHome();
+    checkEnv();
+    await checkGlobalUpdate();
+}
+
 // ----- 第二阶段：命令注册 ------
 function registerCommand() {
     program
         .name(Object.keys(pkg.bin)[0])
         .usage('<command> [options]')
         .version(pkg.version)
-        .option('-d, --debug', '开启debug模式', false);
+        .option('-d, --debug', '开启debug模式', false)
+        .option('-tp, --targetPath <targetPath>', '是否指定本地调试路径', false);
 
     program
         .command('init [projectName]')
@@ -158,6 +146,11 @@ function registerCommand() {
         // 需要对log.level重新赋值，因为require在前面
         log.level = process.env.LOG_LEVEL;
         log.verbose('test', 'debug');
+    });
+
+    program.on('option:targetPath', function() {
+        const options = program.opts();
+        process.env.CLI_TARGET_PATH = options.targetPath;
     });
 
     program.on('command:*', function (operands) {
