@@ -27,8 +27,10 @@
     "url": "https://github.com/Echoting/echo-cli/issues"
   },
   "dependencies": {
-    "@echo-cli/utils": "file:../../utils/utils",
     "@echo-cli/format-path": "file:../../utils/format-path",
+    "@echo-cli/log": "file:../../utils/log",
+    "@echo-cli/utils": "file:../../utils/utils",
+    "npminstall": "^4.11.0",
     "pkg-dir": "^5.0.0"
   }
 }

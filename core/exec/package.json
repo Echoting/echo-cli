@@ -27,6 +27,7 @@
     "url": "https://github.com/Echoting/echo-cli/issues"
   },
   "dependencies": {
-    "@echo-cli/package": "file:../../model/package"
+    "@echo-cli/package": "file:../../model/package",
+    "@echo-cli/log": "file:../../utils/log"
   }
 }

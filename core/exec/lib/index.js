@@ -2,26 +2,63 @@
 
 module.exports = exec;
 
-const Package = require('@echo-cli/package');
+const path = require('path');
 
-function exec() {
+const Package = require('@echo-cli/package');
+const log = require('@echo-cli/log');
+
+const SETTINGS = {
+    init: '@imooc-cli/init'
+};
+
+const CACHE_DIR = 'dependence';
+
+async function exec() {
 
     let targetPath = process.env.CLI_TARGET_PATH;
     const homePath = process.env.CLI_HOME;
+    let storePath = '';
+
+    log.verbose('homePath', homePath);
 
     const cmdObj = arguments[arguments.length - 1];
-    const packageName = cmdObj.name();
+    const packageName = SETTINGS[cmdObj.name()];
     const packageVersion = 'latest';
 
+    let pkg = new Package({});
+
     if (!targetPath) {
-        targetPath = '';
+        targetPath = path.resolve(homePath, CACHE_DIR);
+        storePath = path.resolve(targetPath, 'node_modules');
+
+        log.verbose('targetPath', targetPath);
+
+
+        pkg = new Package({
+            targetPath,
+            storePath,
+            packageName,
+            packageVersion
+        });
+
+        if (pkg.exists()) {
+            // 更新package
+        } else {
+            // 安装package
+            await pkg.install();
+        }
+    } else {
+        pkg = new Package({
+            targetPath,
+            storePath,
+            packageName,
+            packageVersion
+        });
     }
 
-    const pkg = new Package({
-        targetPath,
-        packageName,
-        packageVersion
-    });
+    const rootFile = pkg.getFileRootPath();
 
-    console.log(111, pkg.getFileRootPath())
+    if (rootFile) {
+        require(rootFile).apply(null, arguments);
+    }
 }
