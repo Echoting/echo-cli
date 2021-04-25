@@ -1,7 +1,8 @@
 'use strict';
 const path = require('path');
-const {isObject} = require('@echo-cli/utils');
 const pkgDir = require('pkg-dir').sync;
+const {isObject} = require('@echo-cli/utils');
+const formatPaht = require('@echo-cli/format-path');
 
 class Package {
     constructor(options) {
@@ -57,7 +58,7 @@ class Package {
 
             // 3、寻找 main/lib
             if (pkgFile && pkgFile.main) {
-                return path.resolve(packageDir, pkgFile.main);
+                return formatPaht(path.resolve(packageDir, pkgFile.main));
             }
 
             return null;

@@ -1,5 +1,5 @@
 {
-  "name": "@echo-cli/package",
+  "name": "@echo-cli/format-path",
   "version": "1.0.0",
   "description": "> TODO: description",
   "author": "Echoting <870917335@qq.com>",
@@ -25,9 +25,5 @@
   },
   "bugs": {
     "url": "https://github.com/Echoting/echo-cli/issues"
-  },
-  "dependencies": {
-    "@echo-cli/utils": "file:../../utils/utils",
-    "pkg-dir": "^5.0.0"
   }
 }

@@ -1,7 +1,7 @@
 {
-  "name": "@echo-cli/exec",
+  "name": "@echo-cli/package",
   "version": "1.0.0",
-  "description": "exec",
+  "description": "> TODO: description",
   "author": "Echoting <870917335@qq.com>",
   "homepage": "https://github.com/Echoting/echo-cli#readme",
   "license": "ISC",
@@ -27,6 +27,8 @@
     "url": "https://github.com/Echoting/echo-cli/issues"
   },
   "dependencies": {
-    "@echo-cli/package": "file:../../model/package"
+    "@echo-cli/utils": "file:../../utils/utils",
+    "@echo-cli/format-path": "file:../../utils/format-path",
+    "pkg-dir": "^5.0.0"
   }
 }
