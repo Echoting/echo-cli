@@ -22,4 +22,6 @@ function exec() {
         packageName,
         packageVersion
     });
+
+    console.log(111, pkg.getFileRootPath())
 }

@@ -1,6 +1,7 @@
 'use strict';
-
+const path = require('path');
 const {isObject} = require('@echo-cli/utils');
+const pkgDir = require('pkg-dir').sync;
 
 class Package {
     constructor(options) {
@@ -48,8 +49,20 @@ class Package {
     // 获取入口文件
     getFileRootPath() {
         // 1、获取package.json所在目录 -- pkg-dir
-        // 2、读取package.json
-        // 3、寻找 main/lin
+        const packageDir = pkgDir(this.targetPath);
+
+        if (packageDir) {
+            // 2、读取package.json
+            const pkgFile = require(path.resolve(packageDir, 'package.json'));
+
+            // 3、寻找 main/lib
+            if (pkgFile && pkgFile.main) {
+                return path.resolve(packageDir, pkgFile.main);
+            }
+
+            return null;
+        }
+
         // 4、路径的兼容（macos 和 windows）
 
     }

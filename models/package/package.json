@@ -27,6 +27,7 @@
     "url": "https://github.com/Echoting/echo-cli/issues"
   },
   "dependencies": {
-    "@echo-cli/utils": "file:../../utils/utils"
+    "@echo-cli/utils": "file:../../utils/utils",
+    "pkg-dir": "^5.0.0"
   }
 }
