@@ -25,7 +25,12 @@ async function exec() {
     const packageName = SETTINGS[cmdObj.name()];
     const packageVersion = 'latest';
 
-    let pkg = new Package({});
+    let pkg = new Package({
+        targetPath,
+        storePath,
+        packageName,
+        packageVersion
+    });
 
     if (!targetPath) {
         targetPath = path.resolve(homePath, CACHE_DIR);
@@ -43,6 +48,7 @@ async function exec() {
 
         if (pkg.exists()) {
             // 更新package
+            console.log(88, '文件存在')
         } else {
             // 安装package
             await pkg.install();
