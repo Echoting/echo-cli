@@ -46,9 +46,9 @@ async function exec() {
             packageVersion
         });
 
-        if (pkg.exists()) {
+        if (await pkg.exists()) {
             // 更新package
-            console.log(88, '文件存在')
+            await pkg.update();
         } else {
             // 安装package
             await pkg.install();

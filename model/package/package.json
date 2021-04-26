@@ -28,9 +28,10 @@
   },
   "dependencies": {
     "@echo-cli/format-path": "file:../../utils/format-path",
+    "@echo-cli/get-npm-info": "file:../../utils/get-npm-info",
     "@echo-cli/log": "file:../../utils/log",
     "@echo-cli/utils": "file:../../utils/utils",
-    "@echo-cli/get-npm-info": "file:../../utils/get-npm-info",
+    "fs-extra": "^9.1.0",
     "npminstall": "^4.11.0",
     "path-exists": "^4.0.0",
     "pkg-dir": "^5.0.0"
