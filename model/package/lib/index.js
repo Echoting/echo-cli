@@ -97,7 +97,7 @@ class Package {
     // 获取入口文件
     getFileRootPath() {
         // 1、获取package.json所在目录 -- pkg-dir
-        const packageDir = pkgDir(this.targetPath);
+        const packageDir = this.storePath ? this.getSpecifyCacheFilePath() : pkgDir(this.targetPath);
 
         if (packageDir) {
             // 2、读取package.json
