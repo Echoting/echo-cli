@@ -1,7 +1,17 @@
 'use strict';
 
-function init(projectName, optObj) {
-    console.log(33, projectName, process.env.CLI_TARGET_PATH);
+const Command = require('@echo-cli/command');
+
+class InitCommand extends Command {
+    constructor(argv) {
+        super(argv);
+    }
+}
+
+function init(argv) {
+    return new InitCommand(argv);
 }
 
 module.exports = init;
+
+module.exports.InitCommand = InitCommand;

@@ -1,7 +1,7 @@
 {
-  "name": "@echo-cli/init",
+  "name": "@echo-cli/command",
   "version": "1.0.0",
-  "description": "init command",
+  "description": "> TODO: description",
   "author": "Echoting <870917335@qq.com>",
   "homepage": "https://github.com/Echoting/echo-cli#readme",
   "license": "ISC",
@@ -27,6 +27,8 @@
     "url": "https://github.com/Echoting/echo-cli/issues"
   },
   "dependencies": {
-    "@echo-cli/command": "file:../../model/command"
+    "colors": "^1.4.0",
+    "semver": "^7.3.5",
+    "@echo-cli/log": "file:../../utils/log"
   }
 }

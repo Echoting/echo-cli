@@ -45,17 +45,6 @@ function checkPkgVersion() {
     log.info('version', pkg.version);
 }
 
-
-// 需要检查Node版本，较低版本的Node不支持
-function checkNodeVersion() {
-	const curentNodeVersion = process.version;
-	const lowestNodeVersion = constant.LOWEST_NODE_VERSION;
-
-	if (!semver.gte(curentNodeVersion, lowestNodeVersion)) {
-		throw new Error(colors.red(`echo-cli 需要安装 v${lowestNodeVersion} 以上版本的 node.js`));
-	}
-}
-
 // 检查是否root账户启动，如果是则自动降级
 function checkRoot() {
 	const rootCheck = require('root-check');
@@ -118,7 +107,6 @@ async function checkGlobalUpdate() {
 // ------ 第一阶段: 准备阶段 ------
 async function prepare() {
     checkPkgVersion();
-    checkNodeVersion();
     checkRoot();
     checkUserHome();
     checkEnv();

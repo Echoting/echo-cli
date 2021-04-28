@@ -64,5 +64,5 @@ async function exec() {
 
     const rootFile = pkg.getFileRootPath();
     log.verbose('rootFile', rootFile);
-    require(rootFile).apply(null, arguments);
+    require(rootFile).call(null, Array.from(arguments));
 }
